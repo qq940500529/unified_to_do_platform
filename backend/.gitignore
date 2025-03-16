@@ -1,0 +1,56 @@
+# 依赖
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# 环境变量
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# 保留示例环境变量文件
+!.env.example
+
+# 日志
+logs/
+*.log
+
+# 构建输出
+dist/
+build/
+out/
+
+# 测试覆盖率
+coverage/
+
+# 临时文件
+tmp/
+temp/
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+
+# 编辑器目录和文件
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 上传文件
+uploads/
+
+# 数据库文件
+*.sqlite
+*.sqlite3
+*.db
+
+# 其他
+.vercel
+.netlify
+.serverless/

@@ -7,18 +7,53 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# 依赖
 node_modules
+.pnp
+.pnp.js
+
+# 测试
+coverage
+*.lcov
+.nyc_output
+
+# 构建输出
 dist
 dist-ssr
 *.local
+.output
+.nuxt
+.nitro
+.cache
+.vite
 
-# Editor directories and files
+# 编辑器目录和文件
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+
+# 环境变量
+.env
+.env.*
+!.env.example
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# 其他
+.vercel
+.netlify
+stats.html

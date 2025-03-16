@@ -44,6 +44,14 @@ class User {
     return new User(rows[0]);
   }
 
+  // 通过邮箱查找用户
+  static async findByEmail(email) {
+    const sql = 'SELECT * FROM users WHERE email = ?';
+    const rows = await query(sql, [email]);
+    if (rows.length === 0) return null;
+    return new User(rows[0]);
+  }
+
   // 验证密码
   async validatePassword(password) {
     return await bcrypt.compare(password, this.password_hash);

@@ -1,7 +1,14 @@
 import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
+
+// 获取当前文件的目录路径
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // 创建连接池
 const pool = mysql.createPool({
@@ -55,6 +62,7 @@ export const testConnection = async () => {
     connection.release();
     return true;
   } catch (error) {
+    console.error('数据库连接详细错误:', error);
     throw new Error(`数据库连接失败: ${error.message}`);
   }
 };
@@ -86,9 +94,22 @@ export const initDatabase = async () => {
   }
 };
 
+// 连接数据库
+export const connectDB = async () => {
+  try {
+    await testConnection();
+    console.log('数据库连接成功');
+    return true;
+  } catch (error) {
+    console.error('数据库连接失败:', error);
+    throw error;
+  }
+};
+
 export default {
   query,
   transaction,
   testConnection,
-  initDatabase
+  initDatabase,
+  connectDB
 };

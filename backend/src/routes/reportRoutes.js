@@ -8,12 +8,12 @@ import {
   deleteReport,
   getReportStats
 } from '../controllers/reportController.js';
-import authMiddleware from '../middleware/authMiddleware.js';
+import { authenticate } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
 // 报告相关路由
-router.use(authMiddleware);
+router.use(authenticate);
 
 // 生成报告
 router.post('/:report_type', generateReport);

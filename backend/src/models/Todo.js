@@ -125,14 +125,14 @@ class Todo {
     return new Todo(rows[0]);
   }
 
-  // 获取团队待办事项
-  static async findByTeam(teamId) {
+  // 获取系统来源待办事项
+  static async findBySystemSource(systemSource) {
     const sql = `
       SELECT * FROM todos 
-      WHERE team_id = ?
+      WHERE system_source = ?
       ORDER BY due_date ASC
     `;
-    const rows = await query(sql, [teamId]);
+    const rows = await query(sql, [systemSource]);
     return rows.map(row => new Todo(row));
   }
 

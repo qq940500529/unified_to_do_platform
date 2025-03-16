@@ -35,11 +35,21 @@ The Unified Todo Platform is an enterprise-level application designed to central
 
 > 🧠 Intelligent Development Explanation
 
-- 🤖 **AI Development Framework**: CLINE AI Framework
+- 🤖 **AI Development Plug-in**：CLINE
 - 🧠 **Large Model APIs**:
   - 🐙 DeepSeek Chat
   - 🤖 Claude 3.7 Sonnet 20250219
 - 🚀 **Development Mode**: Fully automated development with minimal human intervention
+
+## ⚠️ AI Development Risk Statement
+
+> 🚨 Risk Notice for Using AI Development Tools
+
+1. **Code Quality Risks**: AI-generated code may contain potential defects or security vulnerabilities. Rigorous code review and testing are recommended.
+2. **Intellectual Property Risks**: AI-generated code may involve copyright issues. Please ensure compliance with relevant laws and regulations.
+3. **Technical Debt Risks**: AI-generated code may lack maintainability. Necessary refactoring and documentation are suggested.
+4. **Security Vulnerability Risks**: AI-generated code may contain security vulnerabilities. Comprehensive security audits are advised.
+5. **Performance Risks**: AI-generated code may have performance bottlenecks. Performance testing and optimization are recommended.
 
 ## 📅 Development Plan
 

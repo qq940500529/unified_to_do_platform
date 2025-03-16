@@ -34,6 +34,8 @@
   - [🔄 开发流程](#-开发流程)
   - [🧪 测试](#-测试)
   - [🚀 部署](#-部署)
+- [🔧 故障排除与常见问题](#-故障排除与常见问题)
+- [📋 最近更新](#-最近更新)
 
 ## 📋 项目概述
 
@@ -85,6 +87,7 @@
 │   │   ├── database/    # 数据库连接
 │   │   └── utils/       # 工具函数
 │   ├── .env             # 环境变量
+│   ├── .env.example     # 环境变量示例
 │   └── package.json     # 依赖配置
 │
 ├── frontend/            # 前端代码
@@ -99,15 +102,19 @@
 │   │   ├── App.vue      # 根组件
 │   │   └── main.ts      # 应用入口
 │   ├── .env             # 环境变量
+│   ├── .env.example     # 环境变量示例
 │   └── package.json     # 依赖配置
 │
 ├── database/            # 数据库脚本
 │   ├── schema.sql       # 数据库结构
 │   └── init.sql         # 初始化数据
 │
-└── docs/                # 文档
-    ├── en/              # 英文文档
-    └── zh/              # 中文文档
+├── docs/                # 文档
+│   ├── en/              # 英文文档
+│   └── zh/              # 中文文档
+│
+├── .gitignore           # Git忽略文件
+└── README.md            # 项目说明
 ```
 
 ## 💾 数据库设计
@@ -187,6 +194,7 @@
 - `create(userData)`: 创建新用户
 - `findByUsername(username)`: 通过用户名查找用户
 - `findById(id)`: 通过ID查找用户
+- `findByEmail(email)`: 通过邮箱查找用户
 - `validatePassword(password)`: 验证密码
 - `generateAuthToken()`: 生成JWT令牌
 - `update(updates)`: 更新用户信息
@@ -200,6 +208,7 @@
 - `create(todoData)`: 创建待办事项
 - `findById(id)`: 通过ID查找待办事项
 - `findByUser(userId)`: 查找用户的所有待办事项
+- `findBySystemSource(systemSource)`: 查找特定来源系统的待办事项
 - `update(updates)`: 更新待办事项
 - `delete()`: 删除待办事项
 
@@ -224,25 +233,25 @@
 
 处理用户认证相关的请求。
 
-**主要方法**：
-- `register(req, res)`: 用户注册
-- `login(req, res)`: 用户登录
-- `getCurrentUser(req, res)`: 获取当前用户信息
-- `updateUser(req, res)`: 更新用户信息
-- `requestPasswordReset(req, res)`: 请求重置密码
-- `resetPassword(req, res)`: 重置密码
+**主要路由**：
+- `POST /register`: 用户注册
+- `POST /login`: 用户登录
+- `GET /me`: 获取当前用户信息
+- `PUT /me`: 更新用户信息
+- `POST /password-reset-request`: 请求重置密码
+- `POST /password-reset`: 重置密码
 
 #### ✅ 待办事项控制器 (todoController.js)
 
 处理待办事项相关的请求。
 
-**主要方法**：
-- `createTodo(req, res)`: 创建待办事项
-- `getTodos(req, res)`: 获取待办事项列表
-- `getTodo(req, res)`: 获取单个待办事项
-- `updateTodo(req, res)`: 更新待办事项
-- `deleteTodo(req, res)`: 删除待办事项
-- `changeTodoStatus(req, res)`: 更改待办事项状态
+**主要路由**：
+- `POST /`: 创建待办事项
+- `GET /`: 获取待办事项列表
+- `GET /:id`: 获取单个待办事项
+- `PUT /:id`: 更新待办事项
+- `DELETE /:id`: 删除待办事项
+- `PATCH /:id/status`: 更改待办事项状态
 
 #### 📊 报告控制器 (reportController.js)
 
@@ -326,6 +335,22 @@ app.use('/api/reports', reportRouter);
 
 **主要方法**：
 - `generateExcelReport(reportData)`: 生成Excel报告
+
+#### 🔑 认证工具 (auth.js)
+
+提供认证相关的工具函数。
+
+**主要方法**：
+- `generateToken(payload, expiresIn)`: 生成JWT令牌
+- `generateResetToken(userId)`: 生成密码重置令牌
+- `verifyResetToken(token)`: 验证密码重置令牌
+
+#### 📧 邮件工具 (email.js)
+
+提供邮件发送功能。
+
+**主要方法**：
+- `sendResetPasswordEmail(email, resetToken)`: 发送密码重置邮件
 
 ## 🖥️ 前端架构
 
@@ -521,7 +546,7 @@ const authenticate = async (req, res, next) => {
 
 ```javascript
 // 后端实现
-static async createTodo(req, res) {
+router.post('/', async (req, res) => {
   try {
     const { title, description, priority, due_date, assignee, system_source } = req.body;
     const user_id = req.user.id;
@@ -540,7 +565,7 @@ static async createTodo(req, res) {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+});
 ```
 
 ### 🔍 待办事项查询
@@ -549,14 +574,14 @@ static async createTodo(req, res) {
 
 ```javascript
 // 后端实现
-static async getTodos(req, res) {
+router.get('/', async (req, res) => {
   try {
     const todos = await Todo.findByUser(req.user.id);
     res.json(todos.map(todo => todo.toJSON()));
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+});
 ```
 
 ### 📝 待办事项更新
@@ -565,7 +590,7 @@ static async getTodos(req, res) {
 
 ```javascript
 // 后端实现
-static async updateTodo(req, res) {
+router.put('/:id', async (req, res) => {
   try {
     const todo = await Todo.findById(req.params.id);
     if (!todo) {
@@ -582,7 +607,7 @@ static async updateTodo(req, res) {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+});
 ```
 
 ### 🗑️ 待办事项删除
@@ -591,7 +616,7 @@ static async updateTodo(req, res) {
 
 ```javascript
 // 后端实现
-static async deleteTodo(req, res) {
+router.delete('/:id', async (req, res) => {
   try {
     const todo = await Todo.findById(req.params.id);
     if (!todo) {
@@ -608,7 +633,7 @@ static async deleteTodo(req, res) {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+});
 ```
 
 ### 🔄 待办事项状态管理
@@ -617,7 +642,7 @@ static async deleteTodo(req, res) {
 
 ```javascript
 // 后端实现
-static async changeTodoStatus(req, res) {
+router.patch('/:id/status', async (req, res) => {
   try {
     const { status } = req.body;
     const todo = await Todo.findById(req.params.id);
@@ -638,7 +663,7 @@ static async changeTodoStatus(req, res) {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+});
 ```
 
 ## 📊 报告功能
@@ -797,7 +822,7 @@ export const exportExcelReport = async (req, res) => {
 2. 克隆项目仓库
 3. 进入backend目录
 4. 安装依赖：`npm install`
-5. 创建.env文件，配置环境变量：
+5. 创建.env文件，配置环境变量（可以复制.env.example并修改）：
 
 ```
 # 服务器配置
@@ -813,6 +838,12 @@ DB_NAME=todo_platform
 # JWT配置
 JWT_SECRET=your_jwt_secret
 JWT_EXPIRES_IN=7d
+
+# 邮件配置
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_USER=your_email@example.com
+SMTP_PASSWORD=your_email_password
 ```
 
 6. 初始化数据库：
@@ -825,7 +856,7 @@ JWT_EXPIRES_IN=7d
 
 1. 进入frontend目录
 2. 安装依赖：`npm install`
-3. 创建.env文件，配置环境变量：
+3. 创建.env文件，配置环境变量（可以复制.env.example并修改）：
 
 ```
 VITE_API_BASE_URL=http://localhost:3000/api
@@ -837,9 +868,6 @@ VITE_API_BASE_URL=http://localhost:3000/api
 
 #### 🔙 后端开发流程
 
-<details>
-<summary>展开查看详细步骤</summary>
-
 1. 在models目录中创建或修改数据模型
 2. 在controllers目录中创建或修改控制器
 3. 在routes目录中创建或修改路由
@@ -847,12 +875,8 @@ VITE_API_BASE_URL=http://localhost:3000/api
 5. 编写测试用例
 6. 运行测试并修复问题
 7. 提交代码
-</details>
 
 #### 🔜 前端开发流程
-
-<details>
-<summary>展开查看详细步骤</summary>
 
 1. 在types目录中定义TypeScript类型
 2. 在services目录中创建或修改API服务
@@ -863,20 +887,12 @@ VITE_API_BASE_URL=http://localhost:3000/api
 7. 编写测试用例
 8. 运行测试并修复问题
 9. 提交代码
-</details>
 
 ### 🧪 测试
 
 #### 🔙 后端测试
 
 后端使用Jest进行单元测试和集成测试。
-
-<details>
-<summary>测试类型</summary>
-
-1. 单元测试：测试模型和工具类的功能
-2. 集成测试：测试API端点的功能
-</details>
 
 运行测试：
 
@@ -889,13 +905,6 @@ npm test
 
 前端使用Vitest和Vue Test Utils进行单元测试和组件测试。
 
-<details>
-<summary>测试类型</summary>
-
-1. 单元测试：测试工具函数和状态管理
-2. 组件测试：测试组件的渲染和交互
-</details>
-
 运行测试：
 
 ```bash
@@ -906,9 +915,6 @@ npm test
 ### 🚀 部署
 
 #### 🔙 后端部署
-
-<details>
-<summary>部署步骤</summary>
 
 1. 构建项目：
 
@@ -935,12 +941,8 @@ JWT_EXPIRES_IN=7d
 ```bash
 npm start
 ```
-</details>
 
 #### 🔜 前端部署
-
-<details>
-<summary>部署步骤</summary>
 
 1. 构建项目：
 
@@ -956,18 +958,95 @@ VITE_API_BASE_URL=https://your-api-domain.com/api
 ```
 
 3. 部署dist目录到Web服务器
-</details>
 
-## 📝 结语
+## 🔧 故障排除与常见问题
 
-本文档提供了统一待办平台的开发指南，包括项目结构、数据库设计、后端架构、前端架构、认证与授权、待办事项功能、报告功能和开发指南等内容。开发者可以根据本文档快速了解项目，并进行开发和维护。
+### 数据库连接问题
 
-如有任何问题或建议，请联系项目维护团队。
+**问题**: 无法连接到数据库，出现 "数据库连接失败" 错误。
 
----
+**解决方案**:
+1. 确认MySQL服务已启动
+2. 检查.env文件中的数据库配置是否正确
+3. 确认数据库用户有足够的权限
+4. 检查防火墙设置是否允许数据库连接
 
-<div align="center">
-  
-**统一待办平台开发团队** | **版权所有 © 2025**
+### JWT认证问题
 
-</div>
+**问题**: 认证失败，出现 "请进行认证" 错误。
+
+**解决方案**:
+1. 确认前端请求中包含正确的Authorization头
+2. 检查JWT_SECRET是否与生成令牌时使用的一致
+3. 确认令牌未过期
+4. 检查用户ID是否存在于数据库中
+
+### 前端API请求问题
+
+**问题**: 前端无法连接到后端API，出现跨域错误。
+
+**解决方案**:
+1. 确认后端CORS配置正确
+2. 检查API基础URL是否正确配置
+3. 确认后端服务器正在运行
+4. 检查网络连接是否正常
+
+### 报告生成问题
+
+**问题**: 生成报告时出现错误。
+
+**解决方案**:
+1. 检查报告类型是否有效
+2. 确认日期格式正确
+3. 检查数据库中是否有足够的数据生成报告
+4. 查看服务器日志获取详细错误信息
+
+### 环境变量问题
+
+**问题**: 应用程序无法读取环境变量。
+
+**解决方案**:
+1. 确认.env文件存在于正确的目录中
+2. 检查环境变量名称是否正确
+3. 重启开发服务器以加载新的环境变量
+4. 在生产环境中，确认环境变量已正确设置
+
+### 数据库迁移问题
+
+**问题**: 数据库结构更新后，应用程序出现错误。
+
+**解决方案**:
+1. 确认已运行最新的数据库迁移脚本
+2. 检查数据库表结构是否与模型定义一致
+3. 备份数据库，然后重新导入最新的数据库结构
+4. 检查应用程序代码是否与新的数据库结构兼容
+
+## 📋 最近更新
+
+### 2025年3月17日
+
+- 修复了数据库连接问题，增强了错误处理能力
+- 修复了多个文件中的导入问题
+- 创建了缺少的文件（auth.js、email.js）和函数（findByEmail、connectDB）
+- 将控制器从类结构改为标准的Express路由模块
+- 修复了Todo模型中的findByTeam方法，将其改为findBySystemSource方法
+- 添加了环境变量示例文件，方便新开发者快速配置项目
+- 添加了.gitignore文件，确保敏感信息和临时文件不会被提交到版本控制系统
+- 更新了开发文档，添加了故障排除和最近更新章节
+
+### 2025年2月15日
+
+- 添加了报告导出功能，支持PDF和Excel格式
+- 优化了待办事项查询性能
+- 添加了系统来源字段，支持多系统待办事项的统一管理
+- 改进了前端UI设计，提升用户体验
+- 添加了更多的数据可视化图表
+- 增强了安全性，添加了密码重置功能
+
+### 2025年1月10日
+
+- 项目初始版本发布
+- 实现了基本的用户认证功能
+- 实现了待办事项的基本CRUD操作
+- 实现了简单的报告生成功能
+- 搭建了前端基础框架

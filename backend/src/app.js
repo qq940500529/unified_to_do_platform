@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import authRouter from './controllers/authController.js';
 import todoRouter from './controllers/todoController.js';
-import reportRouter from './controllers/reportController.js';
+import reportRouter from './routes/reportRoutes.js';
 import { errorHandler } from './middleware/errorMiddleware.js';
 
 const app = express();

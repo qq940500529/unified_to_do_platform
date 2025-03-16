@@ -4,16 +4,17 @@ class TodoController {
   // 创建待办事项
   static async createTodo(req, res) {
     try {
-      const { title, description, priority, due_date, assigned_to } = req.body;
-      const created_by = req.user.id;
+      const { title, description, priority, due_date, assignee, system_source } = req.body;
+      const user_id = req.user.id;
 
       const todo = await Todo.create({
         title,
         description,
         priority,
         due_date,
-        assigned_to,
-        created_by
+        assignee,
+        user_id,
+        system_source: system_source || '统一待办平台'
       });
 
       res.status(201).json(todo.toJSON());
@@ -42,8 +43,8 @@ class TodoController {
 
       // 检查权限
       if (
-        todo.created_by !== req.user.id &&
-        todo.assigned_to !== req.user.id
+        todo.user_id !== req.user.id &&
+        todo.assignee !== req.user.username
       ) {
         return res.status(403).json({ error: '无权访问此待办事项' });
       }
@@ -63,7 +64,7 @@ class TodoController {
       }
 
       // 检查权限
-      if (todo.created_by !== req.user.id) {
+      if (todo.user_id !== req.user.id) {
         return res.status(403).json({ error: '无权修改此待办事项' });
       }
 
@@ -83,7 +84,7 @@ class TodoController {
       }
 
       // 检查权限
-      if (todo.created_by !== req.user.id) {
+      if (todo.user_id !== req.user.id) {
         return res.status(403).json({ error: '无权删除此待办事项' });
       }
 
@@ -105,8 +106,8 @@ class TodoController {
 
       // 检查权限
       if (
-        todo.created_by !== req.user.id &&
-        todo.assigned_to !== req.user.id
+        todo.user_id !== req.user.id &&
+        todo.assignee !== req.user.username
       ) {
         return res.status(403).json({ error: '无权更改此待办事项状态' });
       }

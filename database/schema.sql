@@ -29,8 +29,10 @@ CREATE TABLE IF NOT EXISTS todos (
 CREATE TABLE IF NOT EXISTS reports (
     id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
-    report_type ENUM('daily', 'weekly', 'monthly', 'yearly') NOT NULL,
-    content TEXT NOT NULL,
+    type ENUM('daily', 'weekly', 'monthly', 'yearly') NOT NULL,
+    period_start DATETIME NOT NULL,
+    period_end DATETIME NOT NULL,
+    data TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );

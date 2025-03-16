@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS todos (
   status ENUM('pending', 'in_progress', 'completed') DEFAULT 'pending',
   priority ENUM('low', 'medium', 'high') DEFAULT 'medium',
   system_source VARCHAR(255),
+  assignee VARCHAR(100),
   due_date DATETIME,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -33,6 +34,16 @@ CREATE TABLE IF NOT EXISTS reports (
   data JSON NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- 创建系统日志表
+CREATE TABLE IF NOT EXISTS system_logs (
+    id INT NOT NULL AUTO_INCREMENT,
+    user_id INT,
+    action VARCHAR(100) NOT NULL,
+    details TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
 );
 
 -- 创建索引

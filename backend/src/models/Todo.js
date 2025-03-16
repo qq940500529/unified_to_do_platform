@@ -8,8 +8,9 @@ class Todo {
     status,
     priority,
     due_date,
-    assigned_to,
-    created_by,
+    assignee,
+    user_id,
+    system_source,
     created_at,
     updated_at
   }) {
@@ -19,8 +20,9 @@ class Todo {
     this.status = status;
     this.priority = priority;
     this.due_date = due_date;
-    this.assigned_to = assigned_to;
-    this.created_by = created_by;
+    this.assignee = assignee;
+    this.user_id = user_id;
+    this.system_source = system_source;
     this.created_at = created_at;
     this.updated_at = updated_at;
   }
@@ -31,21 +33,23 @@ class Todo {
     description,
     priority = 'medium',
     due_date,
-    assigned_to,
-    created_by
+    assignee,
+    user_id,
+    system_source
   }) {
     const sql = `
       INSERT INTO todos 
-      (title, description, status, priority, due_date, assigned_to, created_by)
-      VALUES (?, ?, 'pending', ?, ?, ?, ?)
+      (title, description, status, priority, due_date, assignee, user_id, system_source)
+      VALUES (?, ?, 'pending', ?, ?, ?, ?, ?)
     `;
     const result = await query(sql, [
       title,
       description,
       priority,
       due_date,
-      assigned_to,
-      created_by
+      assignee,
+      user_id,
+      system_source
     ]);
     return new Todo({
       id: result.insertId,
@@ -54,8 +58,9 @@ class Todo {
       status: 'pending',
       priority,
       due_date,
-      assigned_to,
-      created_by
+      assignee,
+      user_id,
+      system_source
     });
   }
 
@@ -67,7 +72,8 @@ class Todo {
       'status',
       'priority',
       'due_date',
-      'assigned_to'
+      'assignee',
+      'system_source'
     ];
     const updatesToApply = Object.keys(updates).filter(key =>
       allowedUpdates.includes(key)
@@ -104,11 +110,19 @@ class Todo {
   static async findByUser(userId) {
     const sql = `
       SELECT * FROM todos 
-      WHERE created_by = ? OR assigned_to = ?
+      WHERE user_id = ? OR assignee = ?
       ORDER BY due_date ASC
     `;
     const rows = await query(sql, [userId, userId]);
     return rows.map(row => new Todo(row));
+  }
+
+  // 通过ID查找待办事项
+  static async findById(id) {
+    const sql = 'SELECT * FROM todos WHERE id = ?';
+    const rows = await query(sql, [id]);
+    if (rows.length === 0) return null;
+    return new Todo(rows[0]);
   }
 
   // 获取团队待办事项
@@ -131,8 +145,9 @@ class Todo {
       status: this.status,
       priority: this.priority,
       due_date: this.due_date,
-      assigned_to: this.assigned_to,
-      created_by: this.created_by,
+      assignee: this.assignee,
+      user_id: this.user_id,
+      system_source: this.system_source,
       created_at: this.created_at,
       updated_at: this.updated_at
     };

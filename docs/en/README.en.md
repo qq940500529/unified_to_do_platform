@@ -1,6 +1,6 @@
 # 📋 Unified Todo Platform
 
-> 🌐 Multilingual Support: [English](./README.en.md) | [中文](./README.zh.md)
+> 🌐 Multilingual Support: [English](./README.en.md) | [中文](../zh/README.zh.md)
 
 > 🚀 A modern enterprise-level todo management platform to help teams collaborate efficiently
 
@@ -45,7 +45,7 @@ The Unified Todo Platform is an enterprise-level application designed to central
 
 > 🗓️ Project Progress Tracking
 
-- 📄 View detailed development progress: [Development Plan](./DEVELOPMENT_PLAN.md)
+- 📄 View detailed development progress: [Development Plan](./DEVELOPMENT_PLAN.en.md)
 - 🔍 Real-time status updates
 - 📊 Visualized development progress
 
@@ -181,7 +181,7 @@ JWT_SECRET=your_jwt_secret
 
 > 🔗 Integration with Other Systems
 
-Other business systems can push todos to the Unified Todo Platform by calling API interfaces. Refer to [API.md](./API.md) for detailed interface documentation.
+Other business systems can push todos to the Unified Todo Platform by calling API interfaces. Refer to [API](./API.en.md) for detailed interface documentation.
 
 ## 📜 License
 

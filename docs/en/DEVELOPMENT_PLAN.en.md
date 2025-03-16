@@ -29,20 +29,6 @@ The Unified Todo Platform is an enterprise-level task management system with mai
 - [ ] Mobile adaptation
 - [ ] Multilingual support
 
-## 📊 Current Progress
-- Backend development: 85%
-- Frontend development: 70%
-- Test coverage: 40%
-- Documentation completeness: 90%
-
-## 📅 Milestone Plan
-| Milestone | Estimated Completion | Status |
-|-----------|----------------------|--------|
-| Core feature development | 2025-03-20 | In Progress |
-| System integration testing | 2025-03-25 | Pending |
-| Performance optimization | 2025-03-30 | Pending |
-| Project delivery | 2025-04-05 | Pending |
-
 ## 👥 Development Team
 - Backend developers: 2
 - Frontend developers: 2

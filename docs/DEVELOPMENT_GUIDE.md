@@ -1,64 +1,74 @@
-# 统一待办平台开发文档
+# 📋 统一待办平台开发文档
 
-## 目录
+<div align="center">
+  
+![版本](https://img.shields.io/badge/版本-1.0.0-blue)
+![Node](https://img.shields.io/badge/Node.js-v16+-green)
+![Vue](https://img.shields.io/badge/Vue-3.x-brightgreen)
+![MySQL](https://img.shields.io/badge/MySQL-8.0+-orange)
+![许可证](https://img.shields.io/badge/许可证-MIT-lightgrey)
 
-- [项目概述](#项目概述)
-- [技术栈](#技术栈)
-- [项目结构](#项目结构)
-- [数据库设计](#数据库设计)
-- [后端架构](#后端架构)
-  - [模型层](#模型层)
-  - [控制器层](#控制器层)
-  - [路由层](#路由层)
-  - [工具类](#工具类)
-- [前端架构](#前端架构)
-  - [组件结构](#组件结构)
-  - [状态管理](#状态管理)
-  - [API服务](#api服务)
-  - [路由配置](#路由配置)
-- [认证与授权](#认证与授权)
-- [待办事项功能](#待办事项功能)
-- [报告功能](#报告功能)
-- [开发指南](#开发指南)
-  - [环境设置](#环境设置)
-  - [开发流程](#开发流程)
-  - [测试](#测试)
-  - [部署](#部署)
+</div>
 
-## 项目概述
+## 📑 目录
+
+- [📋 项目概述](#-项目概述)
+- [🔧 技术栈](#-技术栈)
+- [📂 项目结构](#-项目结构)
+- [💾 数据库设计](#-数据库设计)
+- [⚙️ 后端架构](#️-后端架构)
+  - [📊 模型层](#-模型层)
+  - [🎮 控制器层](#-控制器层)
+  - [🛣️ 路由层](#️-路由层)
+  - [🧰 工具类](#-工具类)
+- [🖥️ 前端架构](#️-前端架构)
+  - [🧩 组件结构](#-组件结构)
+  - [📦 状态管理](#-状态管理)
+  - [🔌 API服务](#-api服务)
+  - [🧭 路由配置](#-路由配置)
+- [🔐 认证与授权](#-认证与授权)
+- [✅ 待办事项功能](#-待办事项功能)
+- [📊 报告功能](#-报告功能)
+- [📝 开发指南](#-开发指南)
+  - [🛠️ 环境设置](#️-环境设置)
+  - [🔄 开发流程](#-开发流程)
+  - [🧪 测试](#-测试)
+  - [🚀 部署](#-部署)
+
+## 📋 项目概述
 
 统一待办平台是一个集中管理待办事项的系统，支持多系统待办事项的统一管理、任务分配、状态跟踪以及报表统计功能。该平台采用前后端分离架构，提供RESTful API接口，支持多种报表导出格式。
 
-### 主要功能
+### ✨ 主要功能
 
-- 用户认证与授权
-- 待办事项的创建、查询、更新和删除
-- 待办事项的状态管理和任务分配
-- 多维度的统计报表生成
-- 报表导出（PDF、Excel格式）
+- 👤 用户认证与授权
+- ✏️ 待办事项的创建、查询、更新和删除
+- 🔄 待办事项的状态管理和任务分配
+- 📈 多维度的统计报表生成
+- 📁 报表导出（PDF、Excel格式）
 
-## 技术栈
+## 🔧 技术栈
 
-### 后端
+### 🔙 后端
 
-- **运行环境**: Node.js
-- **Web框架**: Express.js
-- **数据库**: MySQL
-- **ORM**: 原生SQL查询（使用mysql2/promise）
-- **认证**: JWT (JSON Web Token)
-- **文档生成**: PDF (PDFKit)、Excel (ExcelJS)
+- **🏃‍♂️ 运行环境**: Node.js
+- **🌐 Web框架**: Express.js
+- **🗄️ 数据库**: MySQL
+- **🔌 数据访问**: 原生SQL查询（使用mysql2/promise）
+- **🔑 认证**: JWT (JSON Web Token)
+- **📄 文档生成**: PDF (PDFKit)、Excel (ExcelJS)
 
-### 前端
+### 🔜 前端
 
-- **框架**: Vue 3
-- **构建工具**: Vite
-- **状态管理**: Pinia
-- **UI组件库**: Element Plus
-- **HTTP客户端**: Axios
-- **路由**: Vue Router
-- **类型检查**: TypeScript
+- **⚡ 框架**: Vue 3
+- **🛠️ 构建工具**: Vite
+- **📦 状态管理**: Pinia
+- **🎨 UI组件库**: Element Plus
+- **🌐 HTTP客户端**: Axios
+- **🧭 路由**: Vue Router
+- **📝 类型检查**: TypeScript
 
-## 项目结构
+## 📂 项目结构
 
 项目采用前后端分离的结构，分为三个主要部分：
 
@@ -100,11 +110,11 @@
     └── zh/              # 中文文档
 ```
 
-## 数据库设计
+## 💾 数据库设计
 
 系统使用MySQL数据库，主要包含以下表：
 
-### 用户表 (users)
+### 👤 用户表 (users)
 
 存储用户信息和认证数据。
 
@@ -117,7 +127,7 @@
 | created_at | TIMESTAMP | 创建时间 |
 | updated_at | TIMESTAMP | 更新时间 |
 
-### 待办事项表 (todos)
+### ✅ 待办事项表 (todos)
 
 存储待办事项信息。
 
@@ -135,7 +145,7 @@
 | created_at | TIMESTAMP | 创建时间 |
 | updated_at | TIMESTAMP | 更新时间 |
 
-### 报告表 (reports)
+### 📊 报告表 (reports)
 
 存储生成的报告数据。
 
@@ -149,7 +159,7 @@
 | data | JSON | 报告数据（JSON格式） |
 | created_at | TIMESTAMP | 创建时间 |
 
-### 系统日志表 (system_logs)
+### 📝 系统日志表 (system_logs)
 
 记录系统操作日志。
 
@@ -161,15 +171,15 @@
 | details | TEXT | 详细信息 |
 | created_at | TIMESTAMP | 创建时间 |
 
-## 后端架构
+## ⚙️ 后端架构
 
 后端采用MVC架构，分为模型层、控制器层和路由层。
 
-### 模型层
+### 📊 模型层
 
 模型层负责数据访问和业务逻辑，主要包含以下模型：
 
-#### User模型 (User.js)
+#### 👤 User模型 (User.js)
 
 用户模型，负责用户相关的数据操作。
 
@@ -182,7 +192,7 @@
 - `update(updates)`: 更新用户信息
 - `delete()`: 删除用户
 
-#### Todo模型 (Todo.js)
+#### ✅ Todo模型 (Todo.js)
 
 待办事项模型，负责待办事项的数据操作。
 
@@ -193,7 +203,7 @@
 - `update(updates)`: 更新待办事项
 - `delete()`: 删除待办事项
 
-#### Report模型 (Report.js)
+#### 📊 Report模型 (Report.js)
 
 报告模型，负责报告的生成和查询。
 
@@ -206,11 +216,11 @@
 - `generateMonthlyReport(userId, month)`: 生成月报
 - `generateYearlyReport(userId, year)`: 生成年报
 
-### 控制器层
+### 🎮 控制器层
 
 控制器层负责处理HTTP请求，调用模型层的方法，并返回响应。
 
-#### 认证控制器 (authController.js)
+#### 🔐 认证控制器 (authController.js)
 
 处理用户认证相关的请求。
 
@@ -222,7 +232,7 @@
 - `requestPasswordReset(req, res)`: 请求重置密码
 - `resetPassword(req, res)`: 重置密码
 
-#### 待办事项控制器 (todoController.js)
+#### ✅ 待办事项控制器 (todoController.js)
 
 处理待办事项相关的请求。
 
@@ -234,7 +244,7 @@
 - `deleteTodo(req, res)`: 删除待办事项
 - `changeTodoStatus(req, res)`: 更改待办事项状态
 
-#### 报告控制器 (reportController.js)
+#### 📊 报告控制器 (reportController.js)
 
 处理报告相关的请求。
 
@@ -247,11 +257,11 @@
 - `deleteReport(req, res)`: 删除报告
 - `getReportStats(req, res)`: 获取报告统计数据
 
-### 路由层
+### 🛣️ 路由层
 
 路由层定义API端点，将请求路由到相应的控制器方法。
 
-#### 认证路由 (authController.js)
+#### 🔐 认证路由 (authController.js)
 
 ```javascript
 // 路由定义在控制器文件中
@@ -267,7 +277,7 @@ app.use('/api/auth', authRouter);
 | POST | /api/auth/password-reset-request | 请求重置密码 |
 | POST | /api/auth/password-reset | 重置密码 |
 
-#### 待办事项路由 (todoController.js)
+#### ✅ 待办事项路由 (todoController.js)
 
 ```javascript
 // 路由定义在控制器文件中
@@ -283,7 +293,7 @@ app.use('/api/todos', todoRouter);
 | DELETE | /api/todos/:id | 删除待办事项 |
 | PATCH | /api/todos/:id/status | 更改待办事项状态 |
 
-#### 报告路由 (reportRoutes.js)
+#### 📊 报告路由 (reportRoutes.js)
 
 ```javascript
 app.use('/api/reports', reportRouter);
@@ -299,53 +309,53 @@ app.use('/api/reports', reportRouter);
 | DELETE | /api/reports/:id | 删除报告 |
 | GET | /api/reports/stats/:report_type | 获取报告统计数据 |
 
-### 工具类
+### 🧰 工具类
 
 工具类提供通用功能，如PDF生成、Excel生成等。
 
-#### PDF生成器 (pdfGenerator.js)
+#### 📄 PDF生成器 (pdfGenerator.js)
 
 使用PDFKit库生成PDF报告。
 
 **主要方法**：
 - `generatePDFReport(reportData)`: 生成PDF报告
 
-#### Excel生成器 (excelGenerator.js)
+#### 📊 Excel生成器 (excelGenerator.js)
 
 使用ExcelJS库生成Excel报告。
 
 **主要方法**：
 - `generateExcelReport(reportData)`: 生成Excel报告
 
-## 前端架构
+## 🖥️ 前端架构
 
 前端采用Vue 3框架，使用Pinia进行状态管理，Vue Router进行路由管理。
 
-### 组件结构
+### 🧩 组件结构
 
 前端组件按照功能划分，主要包括：
 
-#### 布局组件
+#### 📋 布局组件
 
 - `App.vue`: 根组件
 - `DashboardView.vue`: 仪表盘布局
 
-#### 页面组件
+#### 📄 页面组件
 
 - `LoginView.vue`: 登录页面
 - `RegisterView.vue`: 注册页面
 - `TodosView.vue`: 待办事项列表页面
 - `ReportsView.vue`: 报告页面
 
-#### 功能组件
+#### 🧰 功能组件
 
 - `TodoForm.vue`: 待办事项表单组件
 
-### 状态管理
+### 📦 状态管理
 
 使用Pinia进行状态管理，主要包括以下Store：
 
-#### 认证Store (auth.ts)
+#### 🔐 认证Store (auth.ts)
 
 管理用户认证状态。
 
@@ -360,7 +370,7 @@ app.use('/api/reports', reportRouter);
 - `refresh()`: 刷新令牌
 - `logout()`: 用户登出
 
-#### 待办事项Store (todos.ts)
+#### ✅ 待办事项Store (todos.ts)
 
 管理待办事项状态。
 
@@ -373,7 +383,7 @@ app.use('/api/reports', reportRouter);
 - `updateTodo(todo)`: 更新待办事项
 - `deleteTodo(id)`: 删除待办事项
 
-#### 报告Store (reports.ts)
+#### 📊 报告Store (reports.ts)
 
 管理报告状态。
 
@@ -384,11 +394,11 @@ app.use('/api/reports', reportRouter);
 - `fetchReportData(params)`: 获取报告数据
 - `exportReport(params)`: 导出报告
 
-### API服务
+### 🔌 API服务
 
 API服务负责与后端API通信，主要包括：
 
-#### 认证服务 (api.ts)
+#### 🔐 认证服务 (api.ts)
 
 ```typescript
 export const authService = {
@@ -398,7 +408,7 @@ export const authService = {
 }
 ```
 
-#### 待办事项服务 (api.ts)
+#### ✅ 待办事项服务 (api.ts)
 
 ```typescript
 export const todoService = {
@@ -411,7 +421,7 @@ export const todoService = {
 }
 ```
 
-#### 报告服务 (api.ts)
+#### 📊 报告服务 (api.ts)
 
 ```typescript
 export const reportService = {
@@ -422,7 +432,7 @@ export const reportService = {
 }
 ```
 
-### 路由配置
+### 🧭 路由配置
 
 使用Vue Router进行路由管理，主要路由包括：
 
@@ -464,7 +474,7 @@ const routes = [
 ]
 ```
 
-## 认证与授权
+## 🔐 认证与授权
 
 系统使用JWT进行认证，主要流程如下：
 
@@ -473,7 +483,7 @@ const routes = [
 3. 每次请求时，前端在请求头中添加令牌
 4. 后端验证令牌，确认用户身份
 
-### 认证中间件 (authMiddleware.js)
+### 🔒 认证中间件 (authMiddleware.js)
 
 认证中间件负责验证请求中的JWT令牌，确认用户身份。
 
@@ -501,11 +511,11 @@ const authenticate = async (req, res, next) => {
 };
 ```
 
-## 待办事项功能
+## ✅ 待办事项功能
 
 待办事项功能是系统的核心功能，支持待办事项的创建、查询、更新和删除，以及状态管理和任务分配。
 
-### 待办事项创建
+### ➕ 待办事项创建
 
 用户可以创建待办事项，指定标题、描述、优先级、截止日期和负责人。
 
@@ -533,7 +543,7 @@ static async createTodo(req, res) {
 }
 ```
 
-### 待办事项查询
+### 🔍 待办事项查询
 
 用户可以查询自己创建的或分配给自己的待办事项。
 
@@ -549,7 +559,7 @@ static async getTodos(req, res) {
 }
 ```
 
-### 待办事项更新
+### 📝 待办事项更新
 
 用户可以更新待办事项的标题、描述、优先级、截止日期、负责人和状态。
 
@@ -575,7 +585,7 @@ static async updateTodo(req, res) {
 }
 ```
 
-### 待办事项删除
+### 🗑️ 待办事项删除
 
 用户可以删除自己创建的待办事项。
 
@@ -601,7 +611,7 @@ static async deleteTodo(req, res) {
 }
 ```
 
-### 待办事项状态管理
+### 🔄 待办事项状态管理
 
 用户可以更改待办事项的状态（待处理、进行中、已完成）。
 
@@ -631,11 +641,11 @@ static async changeTodoStatus(req, res) {
 }
 ```
 
-## 报告功能
+## 📊 报告功能
 
 报告功能支持多维度的统计报表生成和导出，包括日报、周报、月报和年报。
 
-### 报告生成
+### 📈 报告生成
 
 用户可以生成指定时间范围的报告。
 
@@ -677,7 +687,7 @@ export const generateReport = async (req, res) => {
 };
 ```
 
-### 报告查询
+### 🔍 报告查询
 
 用户可以查询自己生成的报告。
 
@@ -701,9 +711,12 @@ export const getReports = async (req, res) => {
 };
 ```
 
-### 报告导出
+### 📥 报告导出
 
 用户可以将报告导出为PDF或Excel格式。
+
+<details>
+<summary>📄 PDF导出实现</summary>
 
 ```javascript
 // 后端实现 - PDF导出
@@ -735,7 +748,13 @@ export const exportPDFReport = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+```
+</details>
 
+<details>
+<summary>📊 Excel导出实现</summary>
+
+```javascript
 // 后端实现 - Excel导出
 export const exportExcelReport = async (req, res) => {
   try {
@@ -766,12 +785,13 @@ export const exportExcelReport = async (req, res) => {
   }
 };
 ```
+</details>
 
-## 开发指南
+## 📝 开发指南
 
-### 环境设置
+### 🛠️ 环境设置
 
-#### 后端环境设置
+#### 🔙 后端环境设置
 
 1. 安装Node.js和npm
 2. 克隆项目仓库
@@ -801,7 +821,7 @@ JWT_EXPIRES_IN=7d
 
 7. 启动开发服务器：`npm run dev`
 
-#### 前端环境设置
+#### 🔜 前端环境设置
 
 1. 进入frontend目录
 2. 安装依赖：`npm install`
@@ -813,9 +833,12 @@ VITE_API_BASE_URL=http://localhost:3000/api
 
 4. 启动开发服务器：`npm run dev`
 
-### 开发流程
+### 🔄 开发流程
 
-#### 后端开发流程
+#### 🔙 后端开发流程
+
+<details>
+<summary>展开查看详细步骤</summary>
 
 1. 在models目录中创建或修改数据模型
 2. 在controllers目录中创建或修改控制器
@@ -824,8 +847,12 @@ VITE_API_BASE_URL=http://localhost:3000/api
 5. 编写测试用例
 6. 运行测试并修复问题
 7. 提交代码
+</details>
 
-#### 前端开发流程
+#### 🔜 前端开发流程
+
+<details>
+<summary>展开查看详细步骤</summary>
 
 1. 在types目录中定义TypeScript类型
 2. 在services目录中创建或修改API服务
@@ -836,15 +863,20 @@ VITE_API_BASE_URL=http://localhost:3000/api
 7. 编写测试用例
 8. 运行测试并修复问题
 9. 提交代码
+</details>
 
-### 测试
+### 🧪 测试
 
-#### 后端测试
+#### 🔙 后端测试
 
 后端使用Jest进行单元测试和集成测试。
 
+<details>
+<summary>测试类型</summary>
+
 1. 单元测试：测试模型和工具类的功能
 2. 集成测试：测试API端点的功能
+</details>
 
 运行测试：
 
@@ -853,12 +885,16 @@ cd backend
 npm test
 ```
 
-#### 前端测试
+#### 🔜 前端测试
 
 前端使用Vitest和Vue Test Utils进行单元测试和组件测试。
 
+<details>
+<summary>测试类型</summary>
+
 1. 单元测试：测试工具函数和状态管理
 2. 组件测试：测试组件的渲染和交互
+</details>
 
 运行测试：
 
@@ -867,9 +903,12 @@ cd frontend
 npm test
 ```
 
-### 部署
+### 🚀 部署
 
-#### 后端部署
+#### 🔙 后端部署
+
+<details>
+<summary>部署步骤</summary>
 
 1. 构建项目：
 
@@ -896,8 +935,12 @@ JWT_EXPIRES_IN=7d
 ```bash
 npm start
 ```
+</details>
 
-#### 前端部署
+#### 🔜 前端部署
+
+<details>
+<summary>部署步骤</summary>
 
 1. 构建项目：
 
@@ -913,9 +956,18 @@ VITE_API_BASE_URL=https://your-api-domain.com/api
 ```
 
 3. 部署dist目录到Web服务器
+</details>
 
-## 结语
+## 📝 结语
 
 本文档提供了统一待办平台的开发指南，包括项目结构、数据库设计、后端架构、前端架构、认证与授权、待办事项功能、报告功能和开发指南等内容。开发者可以根据本文档快速了解项目，并进行开发和维护。
 
 如有任何问题或建议，请联系项目维护团队。
+
+---
+
+<div align="center">
+  
+**统一待办平台开发团队** | **版权所有 © 2025**
+
+</div>

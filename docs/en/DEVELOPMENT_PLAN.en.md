@@ -29,18 +29,10 @@ The Unified Todo Platform is an enterprise-level task management system with mai
 - [ ] Mobile adaptation
 - [ ] Multilingual support
 
-## 👥 Development Team
-- Backend developers: 2
-- Frontend developers: 2
-- Testers: 1
-- Product manager: 1
-
 ## ⚠️ Risks & Issues
 1. High complexity in system integration
 2. Performance optimization for report export
 3. Significant workload for mobile adaptation
 
 ## 🔗 Related Documents
-- [API Documentation](./API.md)
-- [Database Design](./database/schema.sql)
-- [Frontend Component Documentation](./frontend/README.md)
+- [API Documentation](./API.en.md)
